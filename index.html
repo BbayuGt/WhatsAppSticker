@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to WhatsApp Sticker</title>
+    <link rel="stylesheet" href="style.css"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col items-center py-10 px-4">
+
+    <header class="text-center mb-10 max-w-xl">
+        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
+            Sticker<span class="text-green-600">Maker</span>
+        </h1>
+        <p class="text-slate-500 text-lg">
+            Convert any image into a clean WhatsApp sticker in seconds.
+        </p>
+    </header>
+
+    <main class="w-full max-w-xl bg-white p-8 rounded-2xl shadow-xl ring-1 ring-slate-900/5 mb-12">
+        
+        <div class="flex flex-col items-center gap-6">
+            <label class="block w-full">
+                <span class="sr-only">Choose profile photo</span>
+                <input type="file" 
+                       id="imageUploader" 
+                       accept="image/*" 
+                       class="block w-full text-sm text-slate-500
+                              file:mr-4 file:py-2.5 file:px-6
+                              file:rounded-full file:border-0
+                              file:text-sm file:font-bold
+                              file:bg-green-50 file:text-green-700
+                              hover:file:bg-green-100
+                              cursor-pointer transition-all
+                       "/>
+            </label>
+
+            <div class="w-full flex justify-center bg-slate-50 rounded-lg border border-dashed border-slate-300 min-h-[100px] items-center p-4">
+                <img id="imagePreview" 
+                     src="" 
+                     alt="Image Preview" 
+                     class="hidden rounded-lg shadow-sm object-contain"
+                     style="max-height: 300px;">
+                <p id="placeholderText" class="text-slate-400 text-sm">Preview will appear here</p>
+            </div>
+        </div>
+    </main>
+
+    <section class="max-w-xl space-y-8">
+        
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                How to use?
+            </h2>
+            <ol class="list-decimal list-inside space-y-2 text-slate-600 ml-1">
+                <li>Upload an image using the button above.</li>
+                <li>Wait for the preview to appear.</li>
+                <li><strong>Long press</strong> (or right-click) the image and select <strong>"Copy Image"</strong>.</li>
+                <li>Open WhatsApp and paste it into any chat.</li>
+            </ol>
+            
+            <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700">
+                            <strong>Tip:</strong> Use a modern keyboard like <span class="font-semibold">Gboard</span> for the best copy-paste experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-3">Why use this?</h2>
+            <p class="text-slate-600 leading-relaxed">
+                While you can make stickers directly in WhatsApp, they often add awkward white borders or cut images poorly. This tool formats your image perfectly for the sticker engine, giving you a cleaner, professional look without the hassle.
+            </p>
+        </div>
+
+    </section>
+
+		<div id="cropModal" class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-75 flex items-center justify-center p-4">
+				<div class="bg-white rounded-lg shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+						
+						<div class="p-4 border-b flex justify-between items-center bg-gray-50">
+								<h3 class="font-bold text-lg text-gray-700">Crop your Sticker</h3>
+								<button id="closeModalBtn" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+						</div>
+
+						<div class="relative w-full h-96 bg-gray-800">
+								<img id="imageToCrop" src="" class="max-w-full block"> 
+						</div>
+
+						<div class="p-4 border-t flex justify-end gap-3 bg-gray-50">
+								<button id="cancelBtn" class="px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-lg">Cancel</button>
+								<button id="cropBtn" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-sm flex items-center gap-2">
+										<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+										Create Sticker
+								</button>
+						</div>
+				</div>
+		</div>
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="./gifjs/gif.js"></script>
+    <script src="main.js"></script>
+    
+    <script>
+        const img = document.getElementById('imagePreview');
+        const placeholder = document.getElementById('placeholderText');
+        
+        // Helper to toggle placeholder visibility based on image visibility
+        // You should call this inside your main.js success function too!
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === "class") {
+                   if (img.classList.contains('hidden')) {
+                       placeholder.style.display = 'block';
+                   } else {
+                       placeholder.style.display = 'none';
+                   }
+                }
+            });
+        });
+
+        observer.observe(img, { attributes: true });
+    </script>
+</body>
+</html>
