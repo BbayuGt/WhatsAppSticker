@@ -21,7 +21,7 @@ if (imageUploader && window.GIF) {
                 if (cropper) { cropper.destroy(); }       
                 cropper = new Cropper(imageToCrop, {
                     aspectRatio: 1,
-                    viewMode: 1,
+                    viewMode: 0,
                     dragMode: 'move',
                     autoCropArea: 1,
                     background: false,
