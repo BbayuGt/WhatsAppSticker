@@ -64,11 +64,10 @@ function generateSticker(imageSource) {
     /** @type {import('gif.js')} */
     const gif = new GIF({
         workers: 2,
-        quality: 10,
+        quality: 5,
         width: 512,
         height: 512,
-        workerScript: './gifjs/gif.worker.js',
-        transparent: 'rgba(0,0,0,0)'
+        workerScript: './gifjs/gif.worker.js'
     });
 
     const img = new Image();
